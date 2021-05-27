@@ -32,14 +32,33 @@ const Filter = styled.input`
   font-size: 23px;
 `;
 
+const SortContainer = styled.div`
+ justify-content: center;
+`;
+
+const Sort = styled.select`
+font-size: 16px;
+width:content-fit;
+`;
+
 export function Overview({ data }) {
   console.log('DATA in overview', data);
   const history = useHistory();
   const [filter, setFilter] = useState('');
 
   const filteredPokemons = useMemo(() => (
-    data.filter((pokemon) => pokemon.name.includes(filter.toLowerCase()))
-  ), [filter, data])
+      data.sort((a,b) =>{
+        const name1 = a.name.toLowerCase();
+        const name2 = b.name.toLowerCase();
+        if(name1 < name2){
+          return -1;
+        }
+        if(name2 > name1){
+          return 1;
+        }
+          return 0;
+      })
+  ), [data])
 
   const handleCardClick = (id) => {
     history.push(`/${id}`);
@@ -58,6 +77,14 @@ export function Overview({ data }) {
           value={filter}
           onChange={handleFilterChange}
         />
+        <SortContainer>
+          <Sort>
+          {filteredPokemons.map(({name}) => 
+          <option
+            placeholder="pokemons"
+            >{name}</option>)}
+          </Sort>
+        </SortContainer>
       </FiltersContainer>
       <CardsWrapper>
         {

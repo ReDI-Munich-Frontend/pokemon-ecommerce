@@ -66,8 +66,7 @@ const useData = () => {
         setPokemons(data);
         setIsLoading(false);
       })
-      .catch((e) => {
-        console.log(e);
+      .catch(() => {
         setIsLoading(false);
       });
   }, []);

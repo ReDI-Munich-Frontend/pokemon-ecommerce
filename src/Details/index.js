@@ -1,15 +1,17 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { DetailsLayout } from "./components/DetailsLayout";
 import { ImageSection } from "./components/ImageSection";
 import { ThumbnailSection } from "./components/ThumbnailSection";
 import { MetaSection } from "./components/MetaSection";
+import { Loader } from "../common/Loader";
 
-export function Details() {
+
+const useData = () => {
   const { id } = useParams();
   const [data, setData] = useState(null);
-  const [selectedImage, setSelectedImage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
@@ -17,22 +19,39 @@ export function Details() {
       .then((pokemonData) => {
         Promise.all(pokemonData.abilities.map((a) => fetch(a.ability.url)))
           .then((responses) => Promise.all(responses.map((res) => res.json())))
-          .then((abilityData) =>
-            setData({ ...pokemonData, abilities: abilityData })
-          );
+          .then((abilityData) =>{
+            setData({ ...pokemonData, abilities: abilityData });
+            setIsLoading(false);
+          });
       });
   }, [id]);
-
-  if (!data) {
-    return <span>Loading</span>;
+    return {
+      data,
+      isLoading,
+      id,
+    };
+  };
+export function Details() {
+  const { data, isLoading, id } = useData();
+  const [selectedImage, setSelectedImage] = useState(null);
+  const history = useHistory();
+  const handleRouteClick = (Id) => {
+    if(Id>0){
+      history.push(`/pokemon/${Id}`);
+      setSelectedImage(null);
+    }
+  };
+  if (isLoading) {
+    return <Loader/>;
   }
 
   return (
     <DetailsLayout>
       <ImageSection
+        leftClick={()=>handleRouteClick(id-1)}
+        rightClick={()=>handleRouteClick(+id+1)}
         alt={data.name}
-        src={
-          selectedImage || data.sprites.other["official-artwork"].front_default
+        src={selectedImage || data.sprites.other["official-artwork"].front_default
         }
       />
       <ThumbnailSection
@@ -55,3 +74,4 @@ export function Details() {
     </DetailsLayout>
   );
 }
+

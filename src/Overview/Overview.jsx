@@ -102,12 +102,12 @@ export const Overview = ({ data, isLoading }) => {
       </FiltersContainer>
       {filteredPokemons.length ? (
         <CardsWrapper>
-          {filteredPokemons.map((pokemon, index) => (
+          {filteredPokemons.map((pokemon) => (
             <PokemonCard
               key={pokemon.name}
               image={pokemon.sprites.other["official-artwork"].front_default}
               name={pokemon.name}
-              click={() => handlePokemonClick(index + 1)}
+              click={() => handlePokemonClick(pokemon.id)}
               price={pokemon.base_experience}
             />
           ))}

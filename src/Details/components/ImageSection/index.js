@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import styled from "styled-components";
 
+
 const ProductImage = styled.img`
   max-width: 100%;
   object-fit: contain;
@@ -16,11 +17,14 @@ const Wrapper = styled.section`
   margin-right: 24px;
 `;
 
-const ImageSection = ({ alt, src }) => (
+const ImageSection = ({ alt, src, onLeftClick, onRightClick, visibility}) => (
   <>
     <Wrapper>
+    <i className="fas fa-arrow-circle-left"  onClick={onLeftClick} visible={visibility.toString()} />
       <ProductImage alt={alt} src={src} />
+      <i className="fas fa-arrow-circle-right" onClick={onRightClick} visible={visibility.toString()} />
     </Wrapper>
+    
   </>
 );
 export { ImageSection };

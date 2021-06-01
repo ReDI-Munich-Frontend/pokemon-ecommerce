@@ -67,6 +67,7 @@ const useData = () => {
         setIsLoading(false);
       })
       .catch((e) => {
+        // eslint-disable-next-line no-console
         console.log(e);
         setIsLoading(false);
       });

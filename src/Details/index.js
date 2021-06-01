@@ -1,40 +1,78 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { DetailsLayout } from "./components/DetailsLayout";
+import { useParams, useHistory } from "react-router-dom";
+import {Loader} from "../common/Loader";
+ import { DetailsLayout } from "./components/DetailsLayout";
 import { ImageSection } from "./components/ImageSection";
 import { ThumbnailSection } from "./components/ThumbnailSection";
 import { MetaSection } from "./components/MetaSection";
 
-export function Details() {
+const useData = () =>{
   const { id } = useParams();
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
-  const [selectedImage, setSelectedImage] = useState("");
-
+  
   useEffect(() => {
+    setLoading(true);
     fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
       .then((res) => res.json())
       .then((pokemonData) => {
         Promise.all(pokemonData.abilities.map((a) => fetch(a.ability.url)))
           .then((responses) => Promise.all(responses.map((res) => res.json())))
-          .then((abilityData) =>
+          .then((abilityData) =>{
             setData({ ...pokemonData, abilities: abilityData })
-          );
+            setLoading(false);
+            
+          })
+          .catch((e) =>{
+            // eslint-disable-next-line no-console
+            console.log(e);
+          });
       });
+      
   }, [id]);
+  return {
+    data,
+    loading,
+    id};
 
-  if (!data) {
-    return <span>Loading</span>;
+};
+
+export function Details() {
+  
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [visibility, setVisibility] = useState(true);
+  const {data, loading, id} = useData();
+  const history = useHistory();
+  
+  const handleclick = (newid)=>{
+   if(newid > 0 && newid <=151)
+   {
+     history.push(`/pokemon/${newid}`);
+     setSelectedImage(null);
+    
+   }
+   else if(newid <= 0){
+     setVisibility(false);
+   }
+   if(newid > 151){
+    setVisibility(false);
+   } 
   }
-
-  return (
-    <DetailsLayout>
+  if (loading) {
+    return <Loader />;
+  }
+   return (
+    
+    <DetailsLayout> 
       <ImageSection
+        onRightClick={() => handleclick(id+1)} 
+        onLeftClick={() => handleclick(id-1)}
         alt={data.name}
-        src={
-          selectedImage || data.sprites.other["official-artwork"].front_default
-        }
+        src= {selectedImage || data.sprites.other["official-artwork"].front_default}
+        visibility={visibility}
       />
+       
       <ThumbnailSection
         name={data.name}
         selectedImage={selectedImage}
@@ -53,5 +91,5 @@ export function Details() {
         abilities={data.abilities}
       />
     </DetailsLayout>
-  );
+  ); 
 }

@@ -67,6 +67,7 @@ const App = () => {
         setIsLoading(false);
       })
       .catch((e) => {
+        // eslint-disable-next-line
         console.log(e);
         setIsLoading(false);
       });

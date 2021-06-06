@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { GRAY } from "./constants";
 import { Card } from "./components/Card";
 import { Total } from "./components/Total";
@@ -26,10 +27,14 @@ const ScrollStyle = styled.div`
 
 export function ShoppingCart() {
   const [cart, setCart] = useState(getCartItems());
-
+  const history = useHistory();
   const handleRemove = (name) => {
     setCart(removeFromCart(name));
   };
+
+  const handleCheckout = () =>{
+    history.push(`/checkout`);
+  }
   if (cart.length === 0) {
     return (
       <LayoutStyle>
@@ -55,7 +60,7 @@ export function ShoppingCart() {
         </ScrollStyle>
       </PanelStyle>
       <PanelStyle>
-        <Total total={cart.reduce((acc, current) => acc + current.price, 0)} />
+        <Total total={cart.reduce((acc, current) => acc + current.price, 0)} handleCheckout= {handleCheckout} />
       </PanelStyle>
     </LayoutStyle>
   );

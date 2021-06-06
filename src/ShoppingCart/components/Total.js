@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { HRStyle } from "./Hr";
 
+
 const TotalItemStyle = styled.div`
   display: flex;
   justify-content: space-between;
@@ -28,7 +29,9 @@ const CheckoutButton = styled.button`
   }
 `;
 
-export const Total = ({ total }) => (
+
+
+export const Total = ({ total, handleCheckout }) => (
   <div>
     <h2>Total</h2>
     <TotalItemStyle>
@@ -41,6 +44,6 @@ export const Total = ({ total }) => (
       <strong>{total}</strong>
     </TotalItemStyle>
     <HRStyle />
-    <CheckoutButton>Checkout</CheckoutButton>
+    <CheckoutButton onClick={handleCheckout}>Checkout</CheckoutButton>
   </div>
 );

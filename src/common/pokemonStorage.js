@@ -3,6 +3,9 @@ const STORAGE_KEY = "cart";
 export const getCartItems = () => {
   try {
     const cartStorage = localStorage.getItem(STORAGE_KEY);
+     if(cartStorage === null){
+       return [];
+     }
     return JSON.parse(cartStorage);
   } catch (e) {
     return [];

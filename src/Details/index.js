@@ -40,8 +40,7 @@ export function Details() {
       type: data.types[0].type.name,
       price: data.base_experience,
       quantity: 1,
-    });
-
+    })
     history.push(`/shopping-cart`);
   };
 

@@ -1,3 +1,7 @@
+import Form from "./components/Form";
+
 export function Checkout() {
-  return <div>Checkout</div>;
+  return <div>
+          <Form />
+  </div>;
 }

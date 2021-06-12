@@ -21,28 +21,14 @@ const CardPriceStyle = styled.div`
   align-items: flex-end;
 `;
 
-const ButtonStyle = styled.a`
-  color: black;
-  font-size: 25px;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
-export const Card = ({ name, img, type, price, quantity, onAdd, onRemove }) => (
+
+export const Card = ({ name, img,  price, quantity  }) => (
   <>
     <CardStyle>
       <img src={img} alt={name} />
       <div>
         <strong>{name}</strong>
-        <p>{type}</p>
-        <ButtonStyle onClick={onAdd}>
-          <span> + </span>
-        </ButtonStyle>
-        <ButtonStyle onClick={onRemove}>
-          <span> - </span>
-        </ButtonStyle>
       </div>
       <CardPriceStyle>
         <p>{quantity}</p>

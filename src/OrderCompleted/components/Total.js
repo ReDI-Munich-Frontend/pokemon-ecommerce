@@ -1,6 +1,8 @@
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { HRStyle } from "./Hr";
+import {} from "module";
+import { emptyStorage } from "../../common/pokemonStorage";
 
 const TotalItemStyle = styled.div`
   display: flex;
@@ -22,6 +24,7 @@ const CheckoutButton = styled.button`
   border: 0;
   cursor: pointer;
   padding: 24px 0;
+
   align-self: end;
   &:hover {
     opacity: 0.8;
@@ -32,7 +35,8 @@ export const Total = ({ total }) => {
   const history = useHistory();
 
   const redirect = () => {
-    history.push(`/checkout`);
+    emptyStorage();
+    history.push(`/`);
   };
   return (
     <div>
@@ -47,7 +51,7 @@ export const Total = ({ total }) => {
         <strong>{total}</strong>
       </TotalItemStyle>
       <HRStyle />
-      <CheckoutButton onClick={redirect}>Checkout</CheckoutButton>
+      <CheckoutButton onClick={redirect}>Thank You</CheckoutButton>
     </div>
   );
 };

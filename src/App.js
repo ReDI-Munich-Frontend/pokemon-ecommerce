@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Overview } from "./Overview";
-import { Checkout } from "./Checkout/Checkout";
+import { CheckOut } from "./CheckOut/CheckOut";
 import { Details } from "./Details";
 import { OrderCompleted } from "./OrderCompleted/OrderCompleted";
 import { ShoppingCart } from "./ShoppingCart/ShoppingCart";
@@ -11,7 +11,6 @@ const Title = styled.h1`
   font-size: 1.5em;
   text-align: center;
   color: palevioletred;
-  border-bottom: 1px solid #d0d1d3;
 `;
 
 const NavBar = styled.nav`
@@ -82,11 +81,14 @@ const App = () => {
           <li>
             <Link to="/order-completed">Order Completed</Link>
           </li>
+          <li>
+            <Link to="/shopping-cart"> Shopping Cart</Link>
+          </li>
         </ul>
-        <Title>Pokemon ecommerce</Title>
+        <Title>Pokemon E-Commerce</Title>
         <ul>
           <li>
-            <Link to="/checkout">Checkout</Link>
+            <Link to="/checkout">CheckOut</Link>
           </li>
         </ul>
       </NavBar>
@@ -99,7 +101,7 @@ const App = () => {
             <ShoppingCart />
           </Route>
           <Route path="/checkout">
-            <Checkout />
+            <CheckOut />
           </Route>
           <Route path="/order-completed">
             <OrderCompleted />

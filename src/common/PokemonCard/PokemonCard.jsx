@@ -45,15 +45,11 @@ const DetailsButton = styled.button`
   }
 `;
 
-export const PokemonCard = ({
-  name, image, click, price,
-}) => (
-  <Wrapper
-    onClick={click}
-  >
+export const PokemonCard = ({ name, image, click, price }) => (
+  <Wrapper onClick={click}>
     <Image src={image} alt={name} />
     <Name>{name}</Name>
-    <Price>{price || '???'} &euro;</Price>
+    <Price>{price || "???"} &euro;</Price>
     <DetailsButton>Details</DetailsButton>
   </Wrapper>
 );

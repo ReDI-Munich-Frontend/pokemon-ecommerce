@@ -1,3 +1,96 @@
+import styled from "styled-components";
+import { useState } from "react";
+import { useHistory } from 'react-router-dom';
+
+import { GRAY } from "./constants";
+import { Card } from "./components/Card";
+import { Total } from "./components/Total";
+import { getCartItems, removeFromCart, updateCart } from "../common/pokemonStorage";
+
+const LayoutStyle = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  max-width: 1024px;
+  background-color: ${GRAY};
+  margin: auto;
+`;
+
+const PanelStyle = styled.div`
+  margin: 1rem;
+  background-color: white;
+  padding: 1rem;
+`;
+
+const ScrollStyle = styled.div`
+  overflow-y: scroll;
+  max-height: 500px;
+`;
+
 export function ShoppingCart() {
-  return <div>ShoppingCart</div>;
+  const [cart, setCart] = useState(getCartItems());
+  const history = useHistory();
+
+  const handleRemove = (name) => {
+    setCart(removeFromCart(name));
+  };
+
+  const handleQuantityChange = (name, quantity) => {
+    if (quantity) {
+      setCart(cart.map((c) => {
+        if (c.name === name) {
+          updateCart({
+            ...c,
+            quantity,
+          });
+
+          return {
+            ...c,
+            quantity,
+          };
+        }
+
+        return c;
+      }));
+    } else {
+      handleRemove(name);
+    }
+  };
+
+  const handleCheckoutClick = () => {
+    history.push('/checkout');
+  };
+
+  if (cart.length === 0) {
+    return (
+      <LayoutStyle>
+        <PanelStyle>
+          <h2>Your cart is empty</h2>{" "}
+        </PanelStyle>
+      </LayoutStyle>
+    );
+  }
+
+  return (
+    <LayoutStyle>
+      <PanelStyle>
+        <h2>Place you order ({cart.length} article)</h2>
+        <ScrollStyle>
+          {cart.map((item) => (
+            <Card
+              key={item.name}
+              {...item}
+              onRemove={() => handleRemove(item.name)}
+              onQuantityChange={handleQuantityChange}
+            />
+          ))}
+        </ScrollStyle>
+      </PanelStyle>
+      <PanelStyle>
+        <Total
+          total={cart.reduce((acc, current) => acc + (current.price * current.quantity), 0)}
+          onCheckout={handleCheckoutClick}
+        />
+      </PanelStyle>
+    </LayoutStyle>
+  );
 }

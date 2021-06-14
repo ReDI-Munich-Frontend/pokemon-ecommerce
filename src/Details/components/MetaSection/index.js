@@ -58,7 +58,7 @@ const SubTitle = styled.h3`
   border-bottom: 1px solid grey;
 `;
 
-const MetaSection = ({ type, name, price, stats, abilities }) => (
+const MetaSection = ({ type, name, price, stats, abilities, onAddToCart }) => (
   <Wrapper>
     <Type>{titleCase(type)}</Type>
     <Title>{titleCase(name)}</Title>
@@ -67,7 +67,7 @@ const MetaSection = ({ type, name, price, stats, abilities }) => (
       {price} &euro; <PriceTax>VAT included</PriceTax>
     </Price>
 
-    <BuyButton>Add to bag</BuyButton>
+    <BuyButton onClick={onAddToCart}>Add to bag</BuyButton>
 
     <SubTitle>Stats</SubTitle>
     <Stats data={stats} />

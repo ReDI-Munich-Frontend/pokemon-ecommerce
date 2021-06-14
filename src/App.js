@@ -88,18 +88,15 @@ const App = () => {
           <li>
             <Link to="/">Home</Link>
           </li>
-          <li>
-            <Link to="/shopping-cart">ShoppingCart</Link>
-          </li>
-          <li>
-            <Link to="/order-completed">Order Completed</Link>
-          </li>
         </ul>
         <Title>Pokemon ecommerce</Title>
         <ul>
           <li>
-            <Link to="/checkout">Checkout</Link>
+            <Link to="/shopping-cart">Shopping cart</Link>
           </li>
+          {/* <li>
+            <Link to="/checkout">Checkout</Link>
+          </li> */}
         </ul>
       </NavBar>
       <Container>

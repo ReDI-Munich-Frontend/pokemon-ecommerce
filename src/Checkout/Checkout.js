@@ -1,3 +1,19 @@
+import { useHistory } from 'react-router-dom';
+import { PrimaryButton } from '../common/Button';
+
 export function Checkout() {
-  return <div>Checkout</div>;
+  const history = useHistory();
+
+  const handleConfirm = () => {
+    history.push('/order-completed')
+  };
+
+  return (
+    <div>
+      Checkout
+      <PrimaryButton
+        onClick={handleConfirm}
+      >Confirm order</PrimaryButton>
+    </div>
+  );
 }

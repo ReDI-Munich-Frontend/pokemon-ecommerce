@@ -1,9 +1,11 @@
 import styled from "styled-components";
+import { useHistory } from 'react-router-dom';
+
 import { useState } from "react";
 import { GRAY } from "./constants";
-import { Card } from "./components/Card";
+import { Card } from "../common/ShoppingCard";
 import { Total } from "./components/Total";
-import { getCartItems, removeFromCart } from "../common/pokemonStorage";
+import { getCartItems, removeFromCart, updateItemInCart } from "../common/pokemonStorage";
 
 const LayoutStyle = styled.div`
   display: grid;
@@ -26,10 +28,24 @@ const ScrollStyle = styled.div`
 
 export function ShoppingCart() {
   const [cart, setCart] = useState(getCartItems());
+  const history = useHistory();
 
   const handleRemove = (name) => {
     setCart(removeFromCart(name));
   };
+
+  const handleQuantityChange = (name, quantity) => {
+    if (quantity) {
+      setCart(updateItemInCart(name, quantity));
+    } else {
+      handleRemove(name);
+    }
+  };
+
+  const handleCheckoutClick = () => {
+    history.push('/checkout')
+  };
+
   if (cart.length === 0) {
     return (
       <LayoutStyle>
@@ -50,12 +66,16 @@ export function ShoppingCart() {
               key={item.name}
               {...item}
               onRemove={() => handleRemove(item.name)}
+              onQuantityChange={handleQuantityChange}
             />
           ))}
         </ScrollStyle>
       </PanelStyle>
       <PanelStyle>
-        <Total total={cart.reduce((acc, current) => acc + current.price, 0)} />
+        <Total
+          total={cart.reduce((acc, current) => acc + current.price * current.quantity, 0)}
+          onCheckout={handleCheckoutClick}
+        />
       </PanelStyle>
     </LayoutStyle>
   );

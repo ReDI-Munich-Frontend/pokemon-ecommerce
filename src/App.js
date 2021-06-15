@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Overview } from "./Overview";
-import { Checkout } from "./Checkout/Checkout";
+import { Checkout } from "./Checkout";
 import { Details } from "./Details";
-import { OrderCompleted } from "./OrderCompleted/OrderCompleted";
-import { ShoppingCart } from "./ShoppingCart/ShoppingCart";
+import { OrderCompleted } from "./OrderCompleted";
+import { ShoppingCart } from "./ShoppingCart";
 
 const Title = styled.h1`
   font-size: 1.5em;
